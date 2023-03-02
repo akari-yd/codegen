@@ -1,0 +1,56 @@
+linters-settings:
+  errcheck:
+    disable-default-exclusions: true  # 禁用errcheck内置排除列表。
+    check-type-assertions: true       # 报告没有检查类型断言中的错误
+    check-blank: true                 # 报告将错误分配给空白标识符的情况
+  lll:
+    line-length: 240  # 一行的最大长度
+    tab-width: 1      # 设置tab占用字符数
+  staticcheck:
+    go: "1.16"
+    disable-all: true
+    checks:           # 选择检查内容
+      - all
+  funlen:
+    lines: 80         # 行数
+    statements: 60    # 语句数
+  goconst:
+    min-len: 3        # 最小字符串长度
+    min-occurrences: 10  # 最少出现次数
+  gocyclo:
+    min-complexity: 10  # 最小复杂度
+  govet:
+    enable-all: true
+    disable:
+      - fieldalignment
+      - shadow
+
+linters:
+  disable-all: true
+  enable:
+    - typecheck     # 类似编译器前端的代码检查
+    - govet         # 检查Go源代码并报告可疑的结构，例如Printf调用的参数与格式字符串不一致
+    - ineffassign   # 检测对现有变量的赋值何时未被使用
+    - gosimple      # 用于简化代码
+    - deadcode      # 找到未使用的代码
+    - structcheck   # 找到未使用的结构字段
+    - unused        # 检查未使用的常数、变量、函数、类型
+    - errcheck      # 检查go代码中被忽视的错误
+    - lll           # 限定一行代码的最大长度
+    - staticcheck   # 静态检查能进行多种静态分析检查
+    - funlen        # 检查函数的行数和语句数e
+    - goconst       # 检查可被常量替换的重复字符串
+#    - gocyclo       # 检查代码的大括号复杂度（意义不明）
+
+output:             # 设置输出格式
+  format: colored-line-number
+
+run:
+  skip-dirs:        # 设置要忽略的目录
+    - venv
+  skip-files:       # 设置不需要检查的go源码文件，支持正则匹配，这里建议包括：_test.go  可通过函数上增加注释nolint:linter 让linter忽略下方的代码块。如：//nolint:funlen
+    - .*_test.go
+
+  go: '1.16'
+
+
